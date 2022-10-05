@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>북클럽</title>
+<link rel="icon" type="image/x-icon" href="./image/image002.png"/>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/join.css">
+<script>
+
+$(function(){
+    $("#mem_id").click(function(){
+    	$(this).next().removeClass("warning");
+    });   
+    $("#mem_name").click(function(){
+    	$(this).next().removeClass("warning");
+    });
+    $("#mem_pw").click(function(){
+    	$(this).next().removeClass("warning");
+    });
+    $("#mem_pw_check").click(function(){
+    	$(this).next().removeClass("warning");
+    });
+    $("#mem_like_num").click(function(){
+    	$(this).next().removeClass("warning");
+    });
+    
+	$("#mem_id").keyup(function(){
+    	let mem_id = $(this).val();
+    	console.log("mem_id::::"+mem_id);
+    	$.ajax({
+    		url:"/sample01_ajax/checkId01.do",
+    		type:"post",
+    		data:{checkId:mem_id},
+    		dataType:"json",
+    		success:function(data){
+    			console.log("data:::"+data);
+    		},
+    		error:function(){
+    			alert("error");
+    		}
+    	});
+    });
+	
+});
+    
+function fn_checkId(){
+	let mem_id = $("#mem_id").val().trim();
+	let pattern = /\s/g;
+	if( mem_id.match(pattern) ) { 
+		alert("아이디에 공백이 존재합니다. 다시 입력해주세요"); 
+		$("#mem_id").val("");
+		$("#mem_id").next().addClass("warning");
+		return;	
+	}else if(mem_id.length<4){
+	  	alert("아이디를 4글자 이상 입력해 주세요");
+	  	$("#mem_id").val("");
+		$("#mem_id").next().addClass("warning");
+	  	return;	
+	}
+
+    $.ajax({
+		url:"/sample01_ajax/checkId01.do",
+		type:"post",
+		data:{checkId:mem_id},
+		dataType:"text",
+		success:function(data){
+			alert(data);//쌍따옴표 붙어잇음
+		
+		//개발자 도구 확인 해보기 
+			
+		},
+		error:function(){
+			alert("error");
+		}
+	});
+}
+
+
+function join(){
+    if($("#mem_id").val() ==""){
+        $("#mem_id").next().addClass("warning");
+        return;
+    }else if($("#mem_name").val() =="" ){
+        $("#mem_name").next().addClass("warning");
+        return;
+    }else if($("#mem_pw").val() =="" ){
+        $("#mem_pw").next().addClass("warning");
+        return;
+    }else if($("#mem_pw_check").val() =="" ){
+        $("#mem_pw_check").next().addClass("warning");
+        return;
+    }else if($("#mem_like_num").val() =="" ){
+        $("#mem_like_num").next().addClass("warning");
+        return;
+    }
+    
+    let mem_id = $("#mem_id").val().trim();
+    console.log("mem_id:::" + mem_id);
+
+    let pattern = /\s/g;
+    if(mem_id.match(pattern)){
+        alert("아이디에 공백이 존재합니다. 다시 입력해주세요.");
+        $("#mem_id").val("");
+        $("#mem_id").next().addClass("warning");
+        return;
+    }else if(mem_id.length < 4) {
+        alert("아이디를 네글자 이상 입력해주세요.")
+        $("#mem_id").val("");
+        $("#mem_id").next().addClass("warning");
+        return;
+    }
+    let mem_name = $("#mem_name").val();
+    let mem_pw = $("#mem_pw").val().trim();
+    if(mem_pw.match(pattern)) {
+        alert("비밀번호에 공백이 존재합니다. 다시 입력해주세요.");
+        $("#mem_pw").val("");
+        return;	
+   	}else if(mem_pw.length < 4){
+    	alert("비밀번호를 네글자 이상 입력해 주세요");
+    	$("#mem_pw").val("");
+		$("#mem_pw").next().addClass("warning");
+    	return;	
+    }
+    let mem_pw_check = $("#mem_pw_check").val();
+    if(mem_pw != mem_pw_check) {
+        $("mem_pw_check").val("");
+        alert("입력하신 비밀번호와 확인 비밀번호가 동일하지 않습니다.");
+    }
+    let mem_like_num = $("#mem_like_num").val();
+    //isNaN은 숫자가 아닐 경우 true를 반환
+    if(isNaN(mem_like_num)){
+    	$("#mem_like_num").val("");
+    	alert("입력하신 Like Number가 숫자가 아닙니다.");
+    	return;
+    }else if(mem_like_num > 9 || mem_like_num < 1 ){
+    	$("#mem_like_num").val("");
+    	alert("숫자는 1~9 사이에 입력 해주세요.");
+    	return;
+    } 
+
+    console.log("mem_id:::" + mem_id);
+    
+    let member_info = {};
+    member_info.mem_id = mem_id;
+    ember_info.mem_name = mem_name;
+    member_info.mem_pw = mem_pw;
+    member_info.mem_like_num = mem_like_num;
+    console.log(member_info);
+
+    let localStorage = window.localStorage;
+	if (!localStorage) {
+	     alert("로컬스토리지를 지원하지 않습니다.");
+	     return;
+	} 
+    let member_arr = localStorage.getItem("memberList");
+
+    if (member_arr === null || member_arr === undefined || member_arr ===""){
+    	member_arr = [];
+    }else{
+    	member_arr = JSON.parse(member_arr);
+    }
+    for(let i=0; i<member_arr.length; i++){
+  		if(member_arr[i].mem_id==member_info.mem_id){
+  			alert("입력하신 아이디가 이미 존재합니다. 다른 아이디를 입력해 주세요");
+  			$("#mem_id").val("");
+  			return;
+  		}
+  	}
+  	member_arr.push(member_info);    
+
+    let memberList = JSON.stringify(member_arr);
+
+    localStorage.setItem("memberList", memberList);
+	alert("회원가입이 완료되었습니다. 확인을 누르시면 로그인 화면으로 이동합니다.");
+	location.href ="/sample01_ajax/login.do";
+};
+    
+</script>
+</head>
+<body>
+    <section class="login_form">
+        <h1>BOOKCLUB</h1> 
+        <form name="loginFrom" method="post">
+            <div class="int-area">
+                <input type="text" id="mem_id" name="mem_id" value="" autocomplete="off"  required>
+                <label for=mem_id>아이디</label>
+                <button type="button" id="check_id"name="check_id" onclick="fn_checkId()">중복확인</button>
+            </div>
+            <div class="int-area">
+                <input type="text" id="mem_name" name="mem_name" value="" autocomplete="off" required>
+                <label for=mem_name>이름</label>
+            </div>
+            <div class="int-area">
+                <input type="password" id="mem_pw" name="mem_pw" value="" autocomplete="off" required>
+                <label for=mem_pw>비밀번호</label>
+            </div>
+            <div class="int-area">
+                <input type="password" id="mem_pw_check" name="mem_pw_check" value=""  autocomplete="off" required>
+                <label for=mem_pw_check>확인 비밀번호</label>
+            </div>
+            <div class="int-area">
+                <input type="text" id="mem_like_num" name="mem_like_num" value="" autocomplete="off" required>
+                <label for=mem_like_num>아이디/비밀번호 찾기 번호 (1~9 중에서 입력)</label>
+            </div>
+            <div class="btn-area">
+                <button type="button"  id="btn_join"name="btn_join" onclick="join()">JOIN</button>
+            </div>
+        </form>    
+    </section>
+    
+</body>
+</html>

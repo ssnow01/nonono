@@ -1,0 +1,162 @@
+*{
+   margin: 0 auto;
+   padding: 0; 
+}
+
+body{
+    height: 100vh;
+    text-align: center;
+}
+
+.login_form{
+    position: relative;
+    top: 40%;
+    width: 400px;
+    background-color: lavender;
+    animation: fade-in 2s;
+}
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+.login_form > h1 {
+    top: -110px;
+    left: 30px;
+    position: absolute;
+    font-size: 40px;
+    color: white;
+}
+
+
+.int-area{
+    width: 400px;
+    background-color: lavenderblush;
+}
+
+.int-area input{
+    width: 96%;
+    padding-top: 25px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #999;
+    font-size: 15px;
+    color: #ffff;
+}
+
+.int-area input:focus{
+    outline: none;
+}
+
+.int-area > label{
+    font-size: 17px;
+    color: white;
+}
+
+.login_form label[for='mem_id']{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.login_form label[for='mem_pw']{
+    position: absolute;
+    top: 70px;
+    left: 20px;
+}
+
+
+.btn-area > button {
+    width: 400px;
+    height: 50px;
+    background-color: rgb(90, 150, 90);
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    margin-top: 30px;
+    padding: 0 10px 0;
+}
+
+.caption_ul > li {
+    list-style: none;
+}
+
+.caption_ul {
+    display: flex;
+    margin-top: 20px;
+}
+
+.caption a {
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+body{
+    background: url("../image/image001.jpg") no-repeat center;
+    background-size: cover;
+}
+
+body, .login_form, .int-area{
+    background-color: transparent;
+}
+
+body::before{
+    content:"";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.int-area input[name='mem_id']:focus + label{
+    top: 0px;
+    font-size: 14px;
+    color: wheat;
+}
+
+.int-area input[name='mem_pw']:focus + label{
+    top: 55px;
+    font-size: 14px;
+    color: wheat;
+}
+.int-area label{
+    transition: all .10s ease;
+}
+
+.int-area input[name='mem_id']:valid + label{
+    top: 0px;
+    font-size: 14px;
+    color:wheat;
+}
+
+.int-area input[name='mem_pw']:valid + label{
+    top: 55px;
+    font-size: 14px;
+    color: wheat;
+}
+
+#btn_id:active{
+    color: rgb(90, 150, 90);
+}
+
+.caption_ul a:active{
+    color: rgb(90, 150, 90) !important;
+}
+
+.login_form{
+    position: fixed;
+    left: calc( 50% - 200px );
+}
+
+.int-area label.warning{
+    color: red;
+    animation-duration: .3s ease;
+}

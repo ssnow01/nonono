@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>북클럽 우리</title>
+<link rel="icon" type="image/x-icon" href="./image/image002.png">
+<link rel="stylesheet" type="text/css" href="./css/login.css">
+<script>
+
+window.onload = function(){
+    let mem_id_tag = document.getElementById("mem_id");
+    let mem_pw_tag = document.getElementById("mem_pw");
+    console.log("mem_id_tag :", mem_id_tag);
+    mem_id_tag.onclick = function(){
+        // alert("mem_id_tag.onclick");
+          document.querySelector(".login_form label[for='mem_id'").classList.remove("warning");
+    }
+    mem_pw_tag.onclick = function(){
+        // alert("mem_pw_tag.onclick");
+        document.querySelector(".login_form label[for='mem_pw'").classList.remove("warning");
+    }
+
+
+} 
+function fn_login() {
+    console.log("login");
+    let mem_id_tag = document.getElementById("mem_id").value;
+    console.log("mem_id_tag : ", mem_id_tag);
+    let mem_pw_tag = document.getElementById("mem_pw").value;
+    console.log("mem_pw_tag : ", mem_pw_tag);
+
+    let label_mem_id =  document.querySelector(".login_form label[for='mem_id']");
+    console.log("label_mem_id : ", label_mem_id);
+    let label_mem_pw =  document.querySelector(".login_form label[for='mem_pw']");
+    console.log("label_mem_pw : ", label_mem_pw);
+
+    if(mem_id_tag === null || mem_id_tag === undefined || mem_id_tag ===""){
+        label_mem_id.classList.add("warning");
+        alert("아이디 또는 패스워드가 입력되지 않았습니다.");
+        return false;
+    }else if(mem_pw_tag === null || mem_pw_tag === undefined || mem_pw_tag ===""){
+        alert("아이디 또는 패스워드가 입력되지 않았습니다.");
+        label_mem_pw.classList.add("warning");
+        return false;
+    }else{
+        alert("로그인되었습니다.");
+        location.href="./home.html";
+    }
+
+}
+
+
+</script>
+</head>
+<body>
+<div class="login_form">
+<h1>BOOKCLUB WOORI</h1>
+<form name="loginForm" action="">
+    <div class="int-area">
+        <input type="text" name="mem_id" id="mem_id" value="아이디" autocomplete="off" required>
+        <label for="mem_id">아이디</label> 
+    </div>
+    <div class="int-area">
+        <input type="password" name="mem_pw" id="mem_pw" value="비밀번호" autocomplete="off" required>
+        <label for="mem_pw">비밀번호</label>
+    </div>
+    <div class="btn-area">
+        <button type="button" id="btn_id" name="btn_id" onclick="fn_login()">로그인</button>
+    </div>
+</form>
+<div class="caption">
+    <ul class="caption_ul">
+        <li>
+            <a href="./join.html" onclick = "join()">회원가입</a>
+        </li>
+        <li>
+            <a href="#" onclick = "forgotPw()">비밀번호 찾기</a>
+        </li>
+    </ul>
+</div>
+</div>
+</body>
+</html>
